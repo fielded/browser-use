@@ -1,0 +1,51 @@
+tests:
+- name: Login Test
+  task: Navigate to https://staging.nscip.field.supply/login
+
+- name: Enter Username
+  task: Find the username input field and type 'edo-orders'
+
+- name: Enter Password
+  task: Find the password input field and type 'test'
+
+- name: Click Login
+  task: Click the login button on the page
+
+- name: Check Login Success
+  task: Look for the phrase 'Welcome' on the page
+
+- name: Navigate to stock reports page
+  task: Click on the Stock reports option that appears on the navigation bar
+
+- name: Check for page redirection success
+  task: Wait for the page to fully load and look for the phrase "Stock reporting" on the page
+
+- name: Select preferred program
+  task: Click on the "Select program" button that appears on the Malaria card
+
+- name: Clicking list button
+  task: Click on the button labelled "List" on the right of the screen
+
+- name: Start report for a location
+  task: Click on the first "Start report" button that appears on the screen
+
+- name: Check for page load success
+  task: Wait for the page to fully load and look for the button labelled "Alerts" on the page
+
+- name: Start a stock report
+  task: Enter numbers into the editable fields 
+
+- name: Check on data entries
+  task: Ensure all editable fields have figures correctly
+
+- name: Proceed
+  task: Scroll down to the bottom of the screen and select the button labelled "Next product"
+
+- name: Repeat stock report process
+  task: Repeat the process of entering numbers into the editable fields for each and every product until the "Next product" button becomes unvailable
+  
+- name: Submit stock report
+  task: Once all products have had quantities entered for them correctly,click on submit stock count button
+
+- name: Confirm stock submission
+  task: Click on the confirm button to successfully submit the stock report 

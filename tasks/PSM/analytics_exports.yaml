@@ -1,0 +1,39 @@
+tests:
+- name: Login Test
+  task: Navigate to https://staging.nscip.field.supply/login
+
+- name: Enter Username
+  task: Find the username input field and type 'edo-orders'
+
+- name: Enter Password
+  task: Find the password input field and type 'test'
+
+- name: Click Login
+  task: Click the login button on the page
+
+- name: Check Login Success
+  task: Look for the phrase 'Welcome' on the page
+
+- name: Access Analytics page
+  task: Click on the analytics page on the navigation bar
+
+- name: Check for page redirection success
+  task: Look for the phrase "Analytics" on the page
+
+- name: Access Indicator export button
+  task: Scroll to the bottom of the page and check for a button labelled "Indicator Export"
+
+- name: Download Indicator export
+  task: Click on the Indicator export button and ensure the button changes to a loading state
+
+- name: Verify Indicator export download
+  task: Once the Indicator Export button changes back to its initial state,seach for a button labelled "LMIS & Service Data Export"
+
+- name: Getting the export
+  task: Click on the LMIS & Service Data export button and ensure the button changes to a loading state
+
+- name: Downloading LMD/ stock export
+  task: Once the  LMIS & Service Data export button changes back to its initial state,seach for a button with the phrase "LMD Order/ Stock Export"
+
+- name: Check on LMD/stock report success
+  task: Wait for the button to successfully change from loading state to its initial state

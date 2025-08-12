@@ -1,0 +1,30 @@
+tests:
+  - name: Start Plan Creation
+    task: Click on the 'Create New' button on the Planning page
+
+  - name: Select Plan For Packpoint
+    task: Scroll to the bottom of the page and click on the option to resupply pack point
+
+  - name: Open Destination Dropdown
+    task: Click the dropdown labeled 'Select Destination Pack Point'
+
+  - name: Wait for Options to Appear
+    task: Wait until the dropdown options are visible on the page
+
+  - name: Select HELD Location
+    task: Click the option labeled 'Shelf Life Nairobi HELD'
+
+  - name: Proceed with Resupply Plan
+    task: Click the confirm button to continue
+
+  - name: Check Resupply Plan Created
+    task: Look for the phrase 'Delivering to 1 destination' on the page
+
+  - name: Final Plan Confirmation
+    task: Click the button labeled 'Confirm Plan'
+
+  - name: Confirm Shipments Created
+    task: In the popup, click the confirm button
+
+  - name: Close Additional Popups
+    task: Close any additional modals or prompts that appear

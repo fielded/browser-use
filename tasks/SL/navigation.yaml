@@ -1,0 +1,22 @@
+tests:
+  - name: Open Deliveries Page
+    task: Click on the 'Deliveries' option in the navigation tab
+
+  - name: Close Welcome Popup
+    task: Close the popup that appears upon login
+
+  - name: Open First Delivery Card
+    task: Click and open the first card that appears on the Deliveries page
+
+  - name: Open Counts Section
+    task: Click on the 'Counts' option that appears after opening the card
+
+  - name: Start Report for Third Location
+    task: Click on the option to start a report for the third location on the Counts page
+
+  - name: Go Back to Counts Page
+    task: Click on the back button to navigate back to the Counts page
+
+  - name: Go to Planning Page
+    task: Click on the 'Planning' option in the navigation bar
+

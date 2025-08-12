@@ -1,0 +1,15 @@
+tests:
+  - name: Registration Test
+    task: Navigate to https://staging.shelflife.co/
+
+  - name: Start sign up
+    task: Click on the sign up button that appears on the navigation at the top right of the page
+
+  - name: Input Name of Pharmacy
+    task: Find the password input field and type 'test'
+
+  - name: Click Login
+    task: Click the login button on the page
+
+  - name: Check Login Success
+    task: Look for the phrase 'Welcome to Shelf Life' on the page

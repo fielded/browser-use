@@ -1,0 +1,71 @@
+tests:
+  - name: Login Test
+    task: Navigate to https://staging.shelflife.field.supply/login
+
+  - name: Enter Username
+    task: Find the input element where users type their username and type 'qa-katherine-operator-nairobi'
+
+  - name: Enter Password
+    task: Find the password input field and type 'test'
+
+  - name: Click Login
+    task: Click the login button on the page
+
+  - name: Check Login Success
+    task: Look for the phrase 'Welcome to Shelf Life' on the page
+    
+  - name: Open Deliveries Page
+    task: Click on the 'Deliveries' option in the navigation tab
+
+  - name: Close Welcome Popup
+    task: Close the popup that appears upon login
+
+  - name: Open First Delivery Card
+    task: Click and open the first card that appears on the Deliveries page
+
+  - name: Search for options button
+    task: Search for the options button at the top right of the page
+
+  - name: Click on options button
+    task: Once you locate the options button,click on it
+
+  - name: Check for redirection success
+    task: Look for the phrase 'If there is a product missing from this shipment, you can add it.' on the page
+
+  - name: Locate the add products button
+    task: Search for the add products button on the page
+
+  - name: Select the add products button
+    task: Click on the button labelled add products
+
+  - name: Check for successfull page redirection
+    task: Check that the page the user is redirected to has a list of products and a search bar
+
+  - name: Select a product 
+    task: Select the third product that appears on the page
+
+  - name: Check for a button at the bottom of the page
+    task: Check for a button containing the phrase 'product selected Next' at the bottom right of the page
+
+  - name: Click on the proceed button
+    task: After locating the button,click on it
+
+  - name: Check on successfull page redirection
+    task: Look for the phrase 'Enter quantities for shipment' on the page
+
+  - name: Search for the quantities field
+    task: Search for an input field with a placeholder of 0 in it
+
+  - name: Enter a quantity
+    task: After finding the input field,enter a positive number between 0 - 20 in that field.
+
+  - name: Save changes
+    task: After entering the quantity search for the button labelled Save and Close at the bottom right of the page
+
+  - name: Click on the save button
+    task: After locating the save button,click on it
+
+  - name: Page redirection
+    task: After clicking on the save button,check for the options button at the top right of the page the user gets redirected to
+
+

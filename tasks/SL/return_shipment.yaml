@@ -1,0 +1,42 @@
+tests:
+  - name: Login Test
+    task: Navigate to https://staging.shelflife.field.supply/login
+  
+  - name: Enter Username
+    task: Find the input element where users type their username and type 'qa-katherine-fp-nairobi'
+
+  - name: Enter Password
+    task: Find the password input field and type 'test'
+
+  - name: Click Login
+    task: Click the login button on the page
+
+  - name: Check Login Success
+    task: Look for the phrase 'Welcome to Shelf Life' on the page
+
+  - name: Open Deliveries Page
+    task: Click on the 'Deliveries' option in the navigation tab
+
+  - name: Close Welcome Popup
+    task: Close the popup that appears upon login
+
+  - name: Locate new shipment button
+    task: Find the button labelled 'New shipment' that appears at the bottom of the screen
+
+  - name: Creating a new shipment
+    test: Click on the new shipment button
+
+  - name: Entering return shipment details
+    test: Search for the origin field
+
+  - name: Choosing an origin for the return shipment
+    test: Click on the dropdown field for origin, search for 'Obey' and click on it
+
+  - name: Proceeding after selection
+    test: After selecting the origin location click on the Next button
+
+  - name: Check for sucess after proceeding
+    test: Look for the phrase 'Select products to send' on the page
+
+  - name: Select products for 
+    test: 

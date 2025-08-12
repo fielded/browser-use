@@ -1,0 +1,33 @@
+tests:
+  - name: Start Plan Creation
+    task: Click on the 'Create New' button on the Planning page
+
+  - name: Select Plan For Location
+    task: Scroll to the bottom and click on the option to create a plan for a location
+
+  - name: Choose Delivery Date
+    task: Click on the delivery date input field 
+    
+  - name: Verify date picker popup
+    task: Ensure that a date picker pops up after clicking on the delivery date input field
+
+  - name: Select Delivery Date
+    task: On the date picker that pops up,select a preferred date for delivery
+
+  - name: Verify Delivery Type section
+    task: Look for the phrase 'Type' on the page and ensure it has two radio button options that appear below it
+
+  - name: Verify Delivery Type section
+    task: Look for the phrase 'Type' on the page and ensure it has two radio button options that appear below it
+
+  - name: Select Location
+    task: Search for a location named 'Magogo Pharmaceuticals' and select it
+
+  - name: Select Products
+    task: Select all products by checking the boxes next to their names
+
+  - name: Submit Plan
+    task: Click the 'Submit' button and confirm the action on the browser prompt
+
+  - name: Confirm Plan
+    task: On the next page, click the 'Confirm Plan' button and confirm on the popup that appears

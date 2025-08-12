@@ -1,0 +1,33 @@
+tests:
+- name: Login Test
+  task: Navigate to https://staging.nscip.field.supply/login
+
+- name: Enter Username
+  task: Find the username input field and type 'edo-orders'
+
+- name: Enter Password
+  task: Find the password input field and type 'test'
+
+- name: Click Login
+  task: Click the login button on the page
+
+- name: Check Login Success
+  task: Look for the phrase 'Welcome' on the page
+
+- name: Navigate to orders page
+  task: Expand the orders option on the navigation bar and click on the Order summaries option
+
+- name: Check for page redirection success
+  task: Wait for the page to fully load and look for the phrase "Select Program" on the page
+
+- name: Select preferred program
+  task: Click on the "Select program" button that appears on the family planning card
+
+- name: Clicking the create order button
+  task: Click on the button labelled "Create new" on the right of the screen
+
+- name: Open the order type dropdown
+  task: Click on the 'Main' option from the dropdown
+
+
+

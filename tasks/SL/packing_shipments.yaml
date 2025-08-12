@@ -1,0 +1,51 @@
+tests:
+  - name: Login Test
+    task: Navigate to https://staging.shelflife.field.supply/login
+
+  - name: Enter Username
+    task: Find the input element where users type their username and type 'qa-katherine-operator-nairobi'
+
+  - name: Enter Password
+    task: Find the password input field and type 'test'
+
+  - name: Click Login
+    task: Click the login button on the page
+
+  - name: Check Login Success
+    task: Look for the phrase 'Welcome to Shelf Life' on the page
+
+  - name: Open Deliveries Page
+    task: Click on the 'Deliveries' option in the navigation tab
+
+  - name: Close Welcome Popup
+    task: Close the popup that appears upon login
+
+  - name: Open First Delivery Card
+    task: Click and open the first card that appears on the Deliveries page
+
+  - name: Checking for the checkbox for products
+    task: Search for a check mark icon on the screen
+
+  - name: Check products in the shipment
+    task: Click on the check mark icon for every product in the shipment 
+
+  - name: Confirm every product is checked correctly
+    task: Confirm that every product in the page has their corresponding check marks correctly selected
+
+  - name: Confirming the shipment
+    task: Click on the proceed button that appears on the bottom of the page
+
+  - name: Check for page redirection
+    task: Look for the phrase 'Proceed' on the page
+
+  - name: Click proceed button
+    task: Click on the proceed button that appears on the page
+
+  - name: Check for page redirection
+    task: Look for the phrase 'Delivery saved' on the page
+
+  - name: Finish packing process
+    task: Click on the button labelled Finish
+
+  - name: Check for page redirection
+    task: Ensure the user is successfully redirected to the Deliveries page

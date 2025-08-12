@@ -1,0 +1,36 @@
+tests:
+- name: Login Test
+  task: Navigate to https://staging.nscip.field.supply/login
+
+- name: Enter Username
+  task: Find the username input field and type 'edo-orders'
+
+- name: Enter Password
+  task: Find the password input field and type 'test'
+
+- name: Click Login
+  task: Click the login button on the page
+
+- name: Check Login Success
+  task: Look for the phrase 'Welcome' on the page
+
+- name: Navigate to Routes page
+  task: Click on the Administration option on the navigation bar then click on routes
+
+- name: Check for page redirection success
+  task: Wait for the page to fully load and look for the phrase "Routes" on the page
+
+- name: Select a route
+  task: Click on the first route which appears on the table
+
+- name: Check for page redirection
+  task: Wait for the page to fully load and look for the phrase "Forward to Distribution Manager" on the page
+
+- name: Send route to be reviewed
+  task: Click on the button labelled "Forward to Distribution Manager"
+
+- name: Confirm route submission
+  task: On the popup that appears,click on the button labelled "Yes, send for review"
+
+- name: Check for route review success
+  task: Check for a message stating "Route sent" to ensure the route has successfully been sent for review

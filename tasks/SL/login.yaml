@@ -1,0 +1,17 @@
+tests:
+  - name: Login Test
+    task: Navigate to https://staging.shelflife.field.supply/login
+  
+  - name: Enter Username
+    task: Find the input element where users type their username and type 'qa-katherine-global-planner-nairobi'
+
+  - name: Enter Password
+    task: Find the password input field and type 'test'
+
+  - name: Click Login
+    task: Click the login button on the page
+
+  - name: Check Login Success
+    task: Look for the phrase 'Welcome to Shelf Life' on the page
+
+ 

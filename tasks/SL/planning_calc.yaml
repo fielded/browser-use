@@ -1,0 +1,18 @@
+tests:
+  - name: Navigate to Admin tab
+    task: Expand the Administration option on the navigation bar
+
+  - name: Select Planning Calculator
+    task: Under the options that show up on the administration menu,select planning calculator option
+
+  - name: Check navigation success
+    task: Look for the phrase 'Manual override' on the page
+
+  - name: Start Planning calculator
+    task: Click on the 'Run Planning calculation' button
+
+  - name: Check for running success
+    task: Check on whether the button changes to an active loading state after being clicked
+
+
+ 

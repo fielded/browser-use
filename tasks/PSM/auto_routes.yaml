@@ -1,0 +1,64 @@
+tests:
+- name: Login Test
+  task: Navigate to https://staging.nscip.field.supply/login
+
+- name: Enter Username
+  task: Find the username input field and type 'edo-orders'
+
+- name: Enter Password
+  task: Find the password input field and type 'test'
+
+- name: Click Login
+  task: Click the login button on the page
+
+- name: Check Login Success
+  task: Look for the phrase 'Welcome' on the page
+
+- name: Open Administration
+  task: Click on the 'Administration' option in the navigation tab
+
+- name: Open Routes Page
+  task: After clicking 'Administration', click on 'Routes'
+
+- name: Check Redirection to Routes Page
+  task: Look for the phrase 'Routes' at the top of the page
+
+- name: Find Auto Generate Button
+  task: Look for the 'Auto generate routes' button
+
+- name: Click Auto Generate Button
+  task: Click on the button labeled 'Auto generate routes'
+
+- name: Check Redirection to Plan Page
+  task: Look for the phrase 'Plan new routes' on the page
+
+#- name: Scroll to Vehicle Class Section
+#  task: Identify Vehicle class . It is a label
+
+#- name: Locate the Vehicle Class 
+#  task: Click on the input attached to 'Vehicle class' label 
+
+- name : Select Vehicle class
+  task : Select vehicle class and confirm on which vehicle class has been selected before proceeding
+ 
+#- name: Wait for options to appear
+#  task: Wait for 1.5 seconds
+
+#- name: Click on Vehicle Class Dropdown
+#  task: Select Truck 14 CUMT option
+
+
+- name: Select First Order
+  task: Click the checkbox next to the first order that appears in the table
+
+- name: Generate Route
+  task: Scroll to the bottom and click the button labeled 'Generate route'
+
+- name: Confirm Route Generation Started
+  task: Look for the message 'Route generation in progress'
+
+- name: Confirm Route Generation Success
+  task: Look for the message 'Routes generated'
+
+- name: Check Recent Route
+  task: Confirm the most recent route in the table has today's date in the 'Date Created' column
