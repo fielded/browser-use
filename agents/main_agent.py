@@ -1,34 +1,56 @@
-import asyncio
-from langchain_openai import ChatOpenAI
-from browser_use import Agent, Browser
+
+from datetime import datetime
+from browser_use.llm import ChatOpenAI
+from browser_use import Agent
 import traceback
 from dotenv import load_dotenv
+
 from helpers.loaders import load_task_list_from_yaml
 from helpers.error_util import log_error_to_markdown
+from helpers.extensions import system_prompt_extension
 
 load_dotenv()
 
-async def run_agent(browser: Browser, browser_context):
+# Soft failure keywords for  tasks
+soft_fail_terms = [
+    "0 shipments",
+    "cannot be reached",
+    "cannot download",
+    "cannot submit",
+    "does not allow",
+    "dns",
+    "error",
+    "failed",
+    "incorrect password",
+    "incorrect username",
+    "invalid email format",
+    "login failed",
+    "not resolved",
+    "operation failed",
+    "reset quantities",
+    "unable to proceed",
+    "valid credentials are required"
+]
+
+
+
+# Function to run an agent with a given browser session and tasks
+async def run_agent(browser_session, tasks, feature):
+    print(f"=== Running {feature} agent ===")
     try:
         # Load tasks
-        add_product = load_task_list_from_yaml("tasks/SL/add_product.yaml")
-
-        if not isinstance(add_product, dict) or "tests" not in add_product:
-            raise ValueError("add_product.yaml must contain a 'tests' key with a list of steps.")
-
-        addition_tasks = add_product["tests"]
-
-        # Build full task text
-        full_task = " ".join([t["task"] for t in addition_tasks])
-        print("\nRunning full task:\n", full_task)
+        task_data = load_task_list_from_yaml(tasks)
 
         # Run the agent
-        llm = ChatOpenAI(model="gpt-4o")
+        llm = ChatOpenAI(model="gpt-5-mini", temperature=0.1)
         agent = Agent(
-            task=full_task,
+            task=task_data,
             llm=llm,
-            browser=browser,
-            browser_context=browser_context,
+            browser_session=browser_session,
+            vision_detail_level='high',
+            max_actions_per_step=3,
+            system_prompt_extension=system_prompt_extension  # Add this instruction
+
         )
         await agent.run()
 
@@ -41,19 +63,16 @@ async def run_agent(browser: Browser, browser_context):
                         text = res.extracted_content.lower()
 
                         # Match soft failure keywords
-                        soft_fail_terms = [
-                            "dns", "unable to proceed", "not resolved", "error",
-                            "does not allow"
-                        ]
                         if any(term in text for term in soft_fail_terms):
                             log_error_to_markdown(
                                 error=res.extracted_content,
-                                context="⚠️ Issue with packing shipments",  
+                                context=f"⚠️ Issue with {feature}",  # check on steps completed.
                                 filename="soft_failures.md"
                             )
                             print("⚠️ Soft failure logged.")
 
     except Exception as e:
+        print(f"🛑 Exception occurred in {feature} agent: {str(e)}")
         # Hard failure logging
         error_message = f"{str(e)}\n\nTraceback:\n{traceback.format_exc()}"
         log_error_to_markdown(
@@ -64,4 +83,4 @@ async def run_agent(browser: Browser, browser_context):
         print("🛑 Exception occurred and was logged.")
 
     finally:
-        print("Product addition agent done")
+        print(f"{feature} agent done")

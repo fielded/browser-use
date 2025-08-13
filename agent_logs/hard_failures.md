@@ -218,3 +218,22 @@ yaml.scanner.ScannerError: mapping values are not allowed here
 
 ```
 
+## ❌ Error at 2025-08-12 17:05:23 UTC
+**Context:** 💥 Unhandled exception during agent run
+
+**Error Message:**
+```
+'task'
+
+Traceback:
+Traceback (most recent call last):
+  File "/Users/field/Documents/browser-use/browser-use/agents/main_agent.py", line 50, in run_agent
+    full_task = " ".join([t["task"] for t in task_tests])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/field/Documents/browser-use/browser-use/agents/main_agent.py", line 50, in <listcomp>
+    full_task = " ".join([t["task"] for t in task_tests])
+                          ~^^^^^^^^
+KeyError: 'task'
+
+```
+

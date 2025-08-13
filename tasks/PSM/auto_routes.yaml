@@ -1,64 +1,155 @@
+version: "1.0"
+meta:
+  name: "NSCIP – Admin Routes Generation E2E (staging)"
+  description: "Deterministic browser QA flow for login → Administration → Routes → Auto-generate → Verify latest route date"
+  token_conservation: true     # keep logs terse: one-liners per step; capture evidence only on failures + final success
+  environment: "staging"
+  allowed_domains:
+    - "staging.nscip.field.supply"
+
+vars:
+  app_url: "https://staging.nscip.field.supply"
+  x_username: "edo-orders"     # replace with secret mapping in runtime if supported
+  x_password: "test"           # replace with secret mapping in runtime if supported
+  date_tz: "Africa/Lagos"      # use this tz for 'today' comparisons
+
+defaults:
+  timeout_sec: 20              # per interaction
+  retry_on_interaction_fail: 1
+  wait_strategy: "visible_or_enabled"  # prefer explicit waits over sleeps
+
 tests:
-- name: Login Test
-  task: Navigate to https://staging.nscip.field.supply/login
 
-- name: Enter Username
-  task: Find the username input field and type 'edo-orders'
+  - name: "Login"
+    actions:
+      - go_to: "{{app_url}}/login"
+      - input_text:
+          hint: "username"
+          strategies: ["[data-testid='username']", "role=textbox[name='Username']", "label=Username", "input[name='username']"]
+          text: "{{x_username}}"
+      - input_text:
+          hint: "password"
+          strategies: ["[data-testid='password']", "role=textbox[name='Password']", "label=Password", "input[name='password']"]
+          text: "{{x_password}}"
+      - click:
+          hint: "Login"
+          strategies: ["role=button[name='Login']", "text='Login'", "[data-testid='login-button']"]
+    assert:
+      - contains_text: "Welcome"         # dashboard welcome banner/heading
+      - url_includes: "/dashboard"       # or the post-login home path
+    evidence_on_success: ["heading:Welcome"]
 
-- name: Enter Password
-  task: Find the password input field and type 'test'
+  - name: "Open Administration"
+    actions:
+      - click:
+          hint: "Administration (nav)"
+          strategies: ["role=link[name='Administration']", "role=button[name='Administration']", "text='Administration'"]
+    assert:
+      - nav_expanded_or_page_loaded: "Administration"
 
-- name: Click Login
-  task: Click the login button on the page
+  - name: "Open Routes Page"
+    actions:
+      - click:
+          hint: "Routes (submenu)"
+          strategies: ["role=link[name='Routes']", "text='Routes'", "[data-testid='nav-routes']"]
+    assert:
+      - page_contains_heading: "Routes"
 
-- name: Check Login Success
-  task: Look for the phrase 'Welcome' on the page
+  - name: "Find Auto Generate Button"
+    actions:
+      - wait_for:
+          hint: "Auto generate routes button"
+          strategies: ["role=button[name='Auto generate routes']", "text='Auto generate routes'", "[data-testid='auto-generate-routes']"]
+    assert:
+      - element_present: "role=button[name='Auto generate routes']"
 
-- name: Open Administration
-  task: Click on the 'Administration' option in the navigation tab
+  - name: "Click Auto Generate Button"
+    actions:
+      - click:
+          hint: "Auto generate routes"
+          strategies: ["role=button[name='Auto generate routes']", "text='Auto generate routes'"]
+    assert:
+      - contains_text: "Plan new routes"   # user should land on planning page
+    evidence_on_success: ["heading:Plan new routes"]
 
-- name: Open Routes Page
-  task: After clicking 'Administration', click on 'Routes'
+  - name: "Select Vehicle Class"
+    actions:
+      - click:
+          hint: "Vehicle class input"
+          strategies: ["label=Vehicle class", "[aria-label='Vehicle class']", "[data-testid='vehicle-class']"]
+      - select_dropdown_option:
+          hint: "First option in Vehicle class"
+          strategy: "first_option"    # agent: pick the first visible option in the opened list
+    assert:
+      - dropdown_value_selected: "Truck 2 CUMT"
 
-- name: Check Redirection to Routes Page
-  task: Look for the phrase 'Routes' at the top of the page
+  - name: "Select First Order"
+    actions:
+      - click:
+          hint: "First order checkbox in table body (ignore header)"
+          strategies: ["table:first_row:checkbox", "[data-testid='orders-table'] tbody tr:nth-of-type(1) input[type='checkbox']"]
+    assert:
+      - checkbox_checked: "first-order"
 
-- name: Find Auto Generate Button
-  task: Look for the 'Auto generate routes' button
+  - name: "Generate Route"
+    actions:
+      - scroll_into_view:
+          hint: "Generate route button"
+          strategies: ["role=button[name='Generate route']", "text='Generate route'", "[data-testid='generate-route']"]
+      - click:
+          hint: "Generate route"
+          strategies: ["role=button[name='Generate route']", "text='Generate route'"]
+    assert:
+      - contains_text: "Route generation in progress"
 
-- name: Click Auto Generate Button
-  task: Click on the button labeled 'Auto generate routes'
+  - name: "Confirm Route Generation Success"
+    actions:
+      - wait_for_text:
+          text: "Routes generated"
+          timeout_sec: 120        # allow time for server-side optimization
+    assert:
+      - contains_text: "Routes generated"
+    evidence_on_success: ["toast:Routes generated"]
 
-- name: Check Redirection to Plan Page
-  task: Look for the phrase 'Plan new routes' on the page
+  - name: "Check Recent Route Date"
+    actions:
+      - ensure_sorted_desc:
+          hint: "Routes table sorted by Date Created (desc). If a sort control exists, click it until desc is active."
+          strategies: ["[data-testid='routes-table']", "table:routes"]
+          column: "Date Created"
+      - extract_table_cell:
+          hint: "First row 'Date Created'"
+          strategies: ["[data-testid='routes-table'] tbody tr:nth-of-type(1) td[col='Date Created']"]
+          save_as: "latest_date_text"
+      - normalize_date:
+          input_var: "latest_date_text"
+          output_var: "latest_date_iso"
+          assumptions:
+            timezone: "{{date_tz}}"
+            formats_hint: ["DD MMM YYYY", "D MMM YYYY", "YYYY-MM-DD", "DD/MM/YYYY", "M/D/YYYY"]  # try in order; fallback to locale parse
+    assert:
+      - date_is_today:
+          var: "latest_date_iso"
+          timezone: "{{date_tz}}"
+    evidence_on_success: ["var:latest_date_text"]
 
-#- name: Scroll to Vehicle Class Section
-#  task: Identify Vehicle class . It is a label
-
-#- name: Locate the Vehicle Class 
-#  task: Click on the input attached to 'Vehicle class' label 
-
-- name : Select Vehicle class
-  task : Select vehicle class and confirm on which vehicle class has been selected before proceeding
- 
-#- name: Wait for options to appear
-#  task: Wait for 1.5 seconds
-
-#- name: Click on Vehicle Class Dropdown
-#  task: Select Truck 14 CUMT option
-
-
-- name: Select First Order
-  task: Click the checkbox next to the first order that appears in the table
-
-- name: Generate Route
-  task: Scroll to the bottom and click the button labeled 'Generate route'
-
-- name: Confirm Route Generation Started
-  task: Look for the message 'Route generation in progress'
-
-- name: Confirm Route Generation Success
-  task: Look for the message 'Routes generated'
-
-- name: Check Recent Route
-  task: Confirm the most recent route in the table has today's date in the 'Date Created' column
+policies:
+  interaction:
+    scroll_before_click_if_offscreen: true
+    close_blocking_banners: ["cookie", "tutorial", "overlay"]
+  failure_handling:
+    on_interaction_fail:
+      retry: 1
+      rescan_dom: true
+    on_assert_fail:
+      capture:
+        - "visible_toast_or_error"
+        - "nearest_heading"
+        - "snippet_of_relevant_section"
+      stop_run_on:
+        - "auth_failure"
+        - "navigation_loop"
+        - "server_error_5xx_persistent"
+  logging:
+    step_log_format: "S{index} {name}: {PASS|FAIL} {reason<=120}"
+    final_summary_json: true
